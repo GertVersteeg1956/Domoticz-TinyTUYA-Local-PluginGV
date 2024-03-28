@@ -236,7 +236,7 @@ def onHandleThread(startup):
                                         Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=244, Subtype=73, Switchtype=0, Used=1).Create() #On/Off
 
                                 # Create Selection Switch
-                                elif item['code'] in ['mode', 'work_mode', 'speed', 'fan_direction', 'Alarmtype', 'AlarmPeriod', 'alarm_state', 'status', 'alarm_volume', 'alarm_lock', 'cistern', 'fault', 'suction', 'cistern', 'fan_speed_enum', 'dehumidify_set_value', 'device_mode', 'pir_sensitivity', 'manual_feed', 'manual_feed', 'feed_state', 'feed_report', 'alarm_lock', 'switch_mode', 'laser_switch'] + [f'switch{i}_value' for i in range(1, 9)] + [f'switch_type_{i}' for i in range(1, 9)]:
+                                elif item['code'] in ['mode', 'work_mode', 'speed', 'fan_direction', 'Alarmtype', 'AlarmPeriod', 'alarm_state', 'status', 'alarm_volume', 'alarm_lock', 'cistern', 'fault', 'suction', 'cistern', 'fan_speed_enum', 'dehumidify_set_value', 'device_mode', 'pir_sensitivity', 'manual_feed', 'manual_feed', 'feed_state', 'feed_report', 'alarm_lock', 'switch_mode', 'laser_switch', 'defrost_state', 'compressor_state'] + [f'switch{i}_value' for i in range(1, 9)] + [f'switch_type_{i}' for i in range(1, 9)]:
                                     Domoticz.Log('Create Selection device')
                                     if item['code'] == 'mode':
                                         the_values = item['values']
@@ -247,7 +247,7 @@ def onHandleThread(startup):
                                         options['LevelActions'] = ''
                                         options['LevelNames'] = '|'.join(mode)
                                         options['SelectorStyle'] = '0' if len(mode) < 5 else '1'
-                                    Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=244, Subtype=62, Switchtype=18, Options=options, Image=9, Used=1).Create() #Selector Switch
+                                        Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=244, Subtype=62, Switchtype=18, Options=options, Image=9, Used=1).Create() #Selector Switch
 
                                 # Powermetering
                                 elif item['code'] in ['ActivePowerA'] in code_list and ['ActivePowerB'] in code_list and ['ActivePowerC']:
@@ -278,7 +278,7 @@ def onHandleThread(startup):
                                     Domoticz.Unit(Name=dev['name'] + ' (kWh)', DeviceID=dev['id'],Unit=103 + unit, Type=243, Subtype=29, Used=1).Create()
 
                                 # Create Sensors
-                                elif item['code'] in ['temp_current', 'intemp', 'outtemp', 'whjtemp', 'cmptemp', 'wttemp', 'hqtemp', 'va_temperature''sub1_temp', 'sub2_temp', 'sub3_temp', 'Temperature', 'temp_indoor', 'temperature']:
+                                elif item['code'] in ['temp_current', 'intemp', 'outtemp', 'whjtemp', 'cmptemp', 'wttemp', 'hqtemp', 'va_temperature''sub1_temp', 'sub2_temp', 'sub3_temp', 'Temperature', 'temp_indoor', 'temperature', 'temp_top', 'temp_bottom']:
                                     Domoticz.Log('Create Temperature device')
                                     Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=80, Subtype=5, Used=1).Create() #Temperature sensor
                                 elif item['code'] in ['va_humidity', 'sub1_hum', 'sub2_hum', 'sub3_hum', 'humidity_indoor']:
@@ -327,7 +327,7 @@ def onHandleThread(startup):
                     # Domoticz.Debug(tuya.status())
                     tuya = tinytuya.Device(dev_id=str(dev['id']), address=str(dev['ip']), local_key=str(dev['key']), version=str(dev['version']), connection_timeout=1, connection_retry_limit=1)
                     tuya.detect_available_dps()
-                    if time.time() > float(getConfigItem(dev['id'], 'last_update')):
+                    if float(time.time()) > float(getConfigItem(dev['id'], 'last_update')):
                         tuyastatus = tuya.status()
                         # Domoticz.Debug('tuyastatus: ' + str(tuyastatus))
                         if 'Device Unreachable' in str(tuyastatus):
