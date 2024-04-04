@@ -98,8 +98,8 @@ class BasePlugin:
             SendCommand(DeviceID, Unit, eval(Color), category)
             UpdateDevice(DeviceID, Unit, Color, 1, 0)
         else:
-            SendCommand(DeviceID, Unit, True if Command not in ['Off', 'Close', False] else False, category)
-            UpdateDevice(DeviceID, Unit, Command, 1 if Command not in ['Off', 'Close'] else 0, 0)
+            SendCommand(DeviceID, Unit, True if Command not in ['Off', 'Closed', False] else False, category)
+            UpdateDevice(DeviceID, Unit, Command, 1 if Command not in ['Off', 'Closed'] else 0, 0)
 
     def onNotification(self, Name, Subject, Text, Status, Priority, Sound, ImageFile):
         Domoticz.Log('Notification: ' + Name + ', ' + Subject + ', ' + Text + ', ' + Status + ', ' + str(Priority) + ', ' + Sound + ', ' + ImageFile)
