@@ -1,6 +1,7 @@
 # Domoticz TinyTUYA Local Plugin
 #
 # Author: Xenomes (xenomes@outlook.com)
+# Update: Gert Versteeg (versteeg.gert@versent.nl)
 #
 """
 <plugin key="tinytuyalocal" name="TinyTUYA (Local Control)" author="Xenomes" version="0.3" wikilink="" externallink="https://github.com/Xenomes/Domoticz-TinyTUYA-Local-Plugin.git">
@@ -211,7 +212,9 @@ def onHandleThread(startup):
                             else:
                                 Domoticz.Log('Create device Light On/Off (Unknown Light Device)')
                                 Domoticz.Unit(Name=dev['name'] + ' (Unknown Light Device)', DeviceID=dev['id'], Unit=unit, Type=244, Subtype=73, Switchtype=0, Used=1).Create() #On/Off
-                    elif dev_type not in ('light', 'fanlight', 'pirlight'):
+                    elif dev_type == 'dehumidifier':
+                        Domoticz.Log('Dehumidifier found')
+                    elif dev_type not in ('light', 'fanlight', 'pirlight','dehumidifier'):
                         for item in mapping.values():
                             # Domoticz.Debug(str(item['code']))
                             unit = int(item['dp'])
