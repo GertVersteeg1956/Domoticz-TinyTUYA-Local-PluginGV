@@ -2,9 +2,10 @@
 #
 # Author: Xenomes (xenomes@outlook.com)
 # Update: Gert Versteeg (versteeg.gert@versent.nl)
+# Date 20 aug 2024
 #
 """
-<plugin key="tinytuyalocal" name="TinyTUYA (Local Control)" author="Xenomes" version="0.3" wikilink="" externallink="https://github.com/Xenomes/Domoticz-TinyTUYA-Local-Plugin.git">
+<plugin key="tinytuyalocalgv" name="TinyTUYA (Local ControlGV)" author="GertVersteeg1956" version="0.1" wikilink="" externallink="https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git">
     <description>
         <h2>TinyTUYA Plugin Local Controlversion Alpha 0.3</h2><br/>
         <br/>
@@ -211,9 +212,68 @@ def onHandleThread(startup):
                                 Domoticz.Unit(Name=dev['name'], DeviceID=dev['id'], Unit=unit, Type=244, Subtype=73, Switchtype=7, Used=1).Create() #Dimmer
                             else:
                                 Domoticz.Log('Create device Light On/Off (Unknown Light Device)')
-                                Domoticz.Unit(Name=dev['name'] + ' (Unknown Light Device)', DeviceID=dev['id'], Unit=unit, Type=244, Subtype=73, Switchtype=0, Used=1).Create() #On/Off
+                                Domoticz.Unit(Name=dev['name'] + ' (Unknown Light Device)', DeviceID=dev['id'], Unit=unit, Type=244, Subtype=73, Switchtype=0, Used=1).Create() #On/Of
+##################################################################################################
                     elif dev_type == 'dehumidifier':
                         Domoticz.Log('Dehumidifier found')
+                        if createDevice(dev['id'], 1) and searchCode('switch', FunctionProperties):
+                            Domoticz.Log('Create device Dehumidifier')
+                            Domoticz.Unit(Name=dev['name'], DeviceID=dev['id'], Unit=1, Type=244, Subtype=73, Switchtype=0, Image=9, Used=1).Create()
+                        if createDevice(dev['id'], 2) and (searchCode('dehumidify_set_value', FunctionProperties) or searchCode('dehumidify_set_enum', FunctionProperties)):
+                            Domoticz.Log('Create device Feeder')
+                            if searchCode('dehumidify_set_value', FunctionProperties):
+                                for item in FunctionProperties:
+                                    if item['code'] == 'dehumidify_set_value':
+                                        the_values = json.loads(item['values'])
+                                        mode = ['0']
+                                        for num in range(the_values.get('min'),the_values.get('max') + 1):
+                                            mode.extend([str(num)])
+                                        options = {}
+                                        options['LevelOffHidden'] = 'true'
+                                        options['LevelActions'] = ''
+                                        options['LevelNames'] = '|'.join(mode)
+                                        options['SelectorStyle'] = '1'
+                                Domoticz.Unit(Name=dev['name'] + ' (dehumidify)', DeviceID=dev['id'], Unit=2, Type=244, Subtype=62, Switchtype=18, Options=options, Image=11, Used=1).Create()
+                            elif searchCode('dehumidify_set_enum', FunctionProperties):
+                                for item in FunctionProperties:
+                                    if item['code'] == 'dehumidify_set_enum':
+                                        the_values = json.loads(item['values'])
+                                        mode = ['off']
+                                        mode.extend(the_values.get('range'))
+                                        options = {}
+                                        options['LevelOffHidden'] = 'true'
+                                        options['LevelActions'] = ''
+                                        options['LevelNames'] = '|'.join(mode)
+                                        options['SelectorStyle'] = '0'
+                            Domoticz.Unit(Name=dev['name'] + ' (dehumidify)', DeviceID=dev['id'], Unit=2, Type=244, Subtype=62, Switchtype=18, Options=options, Image=11, Used=1).Create()
+                        if createDevice(dev['id'], 3) and searchCode('fan_speed_enum', StatusProperties):
+                            for item in StatusProperties:
+                                if item['code'] == 'fan_speed_enum':
+                                    the_values = json.loads(item['values'])
+                                    mode = ['off']
+                                    mode.extend(the_values.get('range'))
+                                    options = {}
+                                    options['LevelOffHidden'] = 'true'
+                                    options['LevelActions'] = ''
+                                    options['LevelNames'] = '|'.join(mode)
+                                    options['SelectorStyle'] = '0'
+                            Domoticz.Unit(Name=dev['name'] + ' (fan speed)', DeviceID=dev['id'], Unit=3, Type=244, Subtype=62, Switchtype=18, Options=options, Image=7, Used=1).Create()
+                        if createDevice(dev['id'], 4) and searchCode('mode', StatusProperties):
+                            for item in StatusProperties:
+                                if item['code'] == 'mode':
+                                    the_values = json.loads(item['values'])
+                                    mode = ['off']
+                                    mode.extend(the_values.get('range'))
+                                    options = {}
+                                    options['LevelOffHidden'] = 'true'
+                                    options['LevelActions'] = ''
+                                    options['LevelNames'] = '|'.join(mode)
+                                    options['SelectorStyle'] = '0'
+                                    Domoticz.Unit(Name=dev['name'] + ' (Fan)', DeviceID=dev['id'], Unit=4, Type=244, Subtype=62, Switchtype=18, Options=options, Image=7, Used=1).Create()
+                        if createDevice(dev['id'], 5) and searchCode('fault', StatusProperties):
+                            Domoticz.Unit(Name=dev['name'] + ' (Fault)', DeviceID=dev['id'], Unit=5, Type=243, Subtype=19, Image=13, Used=1).Create()
+
+                    ################################################################################################
                     elif dev_type not in ('light', 'fanlight', 'pirlight','dehumidifier'):
                         for item in mapping.values():
                             # Domoticz.Debug(str(item['code']))
@@ -342,7 +402,59 @@ def onHandleThread(startup):
                             if dev_type in ('light', 'fanlight', 'pirlight'):
                                 unit = 1
                                 UpdateDevice(dev['id'], unit, True if bool(tuyastatus['dps']['1']) == True else False, 0 if bool(tuyastatus['dps'][str(unit)]) == False else 1, 0)
-                            if dev_type not in ('light', 'pirlight'):
+
+                            elif dev_type == 'dehumidifier':
+                                if searchCode('switch', ResultValue):
+                                    currentstatus = StatusDeviceTuya('switch')
+                                    UpdateDevice(dev['id'], 1, bool(currentstatus), int(bool(currentstatus)), 0)
+                                if searchCode('dehumidify_set_value', ResultValue) or searchCode('dehumidify_set_enum', ResultValue):
+                                    if searchCode('dehumidify_set_value', ResultValue):
+                                        currentmode = StatusDeviceTuya('dehumidify_set_value')
+                                        for item in FunctionProperties:
+                                            if item['code'] == 'dehumidify_set_value':
+                                                the_values = json.loads(item['values'])
+                                                mode = ['0']
+                                                for num in range(the_values.get('min'),the_values.get('max') + 1):
+                                                    mode.extend([str(num)])
+                                        if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[2].sValue):
+                                            UpdateDevice(dev['id'], 2, int(mode.index(str(currentmode)) * 10), 1, 0)
+                                    elif searchCode('dehumidify_set_enum', ResultValue):
+                                        currentmode = StatusDeviceTuya('dehumidify_set_enum')
+                                        for item in StatusProperties:
+                                            if item['code'] == 'dehumidify_set_enum':
+                                                the_values = json.loads(item['values'])
+                                                mode = ['off']
+                                                mode.extend(the_values.get('range'))
+                                        if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[2].sValue):
+                                            UpdateDevice(dev['id'], 2, int(mode.index(str(currentmode)) * 10), 1, 0)
+                                if searchCode('fan_speed_enum', ResultValue):
+                                    currentmode = StatusDeviceTuya('fan_speed_enum')
+                                    for item in StatusProperties:
+                                        if item['code'] == 'fan_speed_enum':
+                                            the_values = json.loads(item['values'])
+                                            mode = ['off']
+                                            mode.extend(the_values.get('range'))
+                                    if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[3].sValue):
+                                        UpdateDevice(dev['id'], 3, int(mode.index(str(currentmode)) * 10), 1, 0)
+                                if searchCode('mode', ResultValue):
+                                    currentmode = StatusDeviceTuya('mode')
+                                    for item in StatusProperties:
+                                        if item['code'] == 'mode':
+                                            the_values = json.loads(item['values'])
+                                            mode = ['off']
+                                            mode.extend(the_values.get('range'))
+                                    if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[4].sValue):
+                                        UpdateDevice(dev['id'], 4, int(mode.index(str(currentmode)) * 10), 1, 0)
+                                if searchCode('fault', ResultValue):
+                                    currentmode = StatusDeviceTuya('fault')
+                                    for item in StatusProperties:
+                                        if item['code'] == 'fault':
+                                            the_values = json.loads(item['values'])
+                                            mode = ['No fault']
+                                            mode.extend(the_values.get('label'))
+                                    if str(mode[currentmode]).lower().replace('_',' ') != str(Devices[dev['id']].Units[5].sValue).lower():
+                                        UpdateDevice(dev['id'], 5, str(mode[currentmode]).capitalize().replace('_',' '), 0, 0)
+                            elif dev_type not in ('light', 'pirlight'):
                                 # Domoticz.Debug(str(mapping.values()))
                                 for item in mapping.values():
                                     tuyastatus = tuya.status()
