@@ -175,6 +175,7 @@ def onHandleThread(startup):
         # Create devices
         for dev in devs:
             Domoticz.Debug( 'Device name=' + str(dev['name']) + ' id=' + str(dev['id']) + ' ip=' + str(dev['ip']) + ' version=' + str(dev['version'])) # ' key=' + str(dev['key']) +
+            Domoticz.Debug( 'Device mapping ' + str(dev['mapping'])
             mapping = dev['mapping']
             dev_type = DeviceType(dev['category'])
             for key, value in mapping.items():
