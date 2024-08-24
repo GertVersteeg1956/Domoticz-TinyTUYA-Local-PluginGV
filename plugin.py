@@ -215,7 +215,7 @@ def onHandleThread(startup):
                                 Domoticz.Log('Create device Light On/Off (Unknown Light Device)')
                                 Domoticz.Unit(Name=dev['name'] + ' (Unknown Light Device)', DeviceID=dev['id'], Unit=unit, Type=244, Subtype=73, Switchtype=0, Used=1).Create() #On/Of
                     elif dev_type == 'dehumidifier':
-                        Domoticz.Log('Dehumidifier found')
+                        Domoticz.Log('Dehumidifier ' + dev['name'] +   ' found')
                     elif dev_type not in ('light', 'fanlight', 'pirlight','dehumidifier'):
                         for item in mapping.values():
                             # Domoticz.Debug(str(item['code']))
