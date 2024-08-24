@@ -344,58 +344,8 @@ def onHandleThread(startup):
                             if dev_type in ('light', 'fanlight', 'pirlight'):
                                 unit = 1
                                 UpdateDevice(dev['id'], unit, True if bool(tuyastatus['dps']['1']) == True else False, 0 if bool(tuyastatus['dps'][str(unit)]) == False else 1, 0)
-
                             elif dev_type == 'dehumidifier':
-                                if searchCode('switch', ResultValue):
-                                    currentstatus = StatusDeviceTuya('switch')
-                                    UpdateDevice(dev['id'], 1, bool(currentstatus), int(bool(currentstatus)), 0)
-                                if searchCode('dehumidify_set_value', ResultValue) or searchCode('dehumidify_set_enum', ResultValue):
-                                    if searchCode('dehumidify_set_value', ResultValue):
-                                        currentmode = StatusDeviceTuya('dehumidify_set_value')
-                                        for item in FunctionProperties:
-                                            if item['code'] == 'dehumidify_set_value':
-                                                the_values = json.loads(item['values'])
-                                                mode = ['0']
-                                                for num in range(the_values.get('min'),the_values.get('max') + 1):
-                                                    mode.extend([str(num)])
-                                        if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[2].sValue):
-                                            UpdateDevice(dev['id'], 2, int(mode.index(str(currentmode)) * 10), 1, 0)
-                                    elif searchCode('dehumidify_set_enum', ResultValue):
-                                        currentmode = StatusDeviceTuya('dehumidify_set_enum')
-                                        for item in StatusProperties:
-                                            if item['code'] == 'dehumidify_set_enum':
-                                                the_values = json.loads(item['values'])
-                                                mode = ['off']
-                                                mode.extend(the_values.get('range'))
-                                        if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[2].sValue):
-                                            UpdateDevice(dev['id'], 2, int(mode.index(str(currentmode)) * 10), 1, 0)
-                                if searchCode('fan_speed_enum', ResultValue):
-                                    currentmode = StatusDeviceTuya('fan_speed_enum')
-                                    for item in StatusProperties:
-                                        if item['code'] == 'fan_speed_enum':
-                                            the_values = json.loads(item['values'])
-                                            mode = ['off']
-                                            mode.extend(the_values.get('range'))
-                                    if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[3].sValue):
-                                        UpdateDevice(dev['id'], 3, int(mode.index(str(currentmode)) * 10), 1, 0)
-                                if searchCode('mode', ResultValue):
-                                    currentmode = StatusDeviceTuya('mode')
-                                    for item in StatusProperties:
-                                        if item['code'] == 'mode':
-                                            the_values = json.loads(item['values'])
-                                            mode = ['off']
-                                            mode.extend(the_values.get('range'))
-                                    if str(mode.index(str(currentmode)) * 10) != str(Devices[dev['id']].Units[4].sValue):
-                                        UpdateDevice(dev['id'], 4, int(mode.index(str(currentmode)) * 10), 1, 0)
-                                if searchCode('fault', ResultValue):
-                                    currentmode = StatusDeviceTuya('fault')
-                                    for item in StatusProperties:
-                                        if item['code'] == 'fault':
-                                            the_values = json.loads(item['values'])
-                                            mode = ['No fault']
-                                            mode.extend(the_values.get('label'))
-                                    if str(mode[currentmode]).lower().replace('_',' ') != str(Devices[dev['id']].Units[5].sValue).lower():
-                                        UpdateDevice(dev['id'], 5, str(mode[currentmode]).capitalize().replace('_',' '), 0, 0)
+                                Domoticz.Debug('Update dehumidifier')
                             elif dev_type not in ('light', 'pirlight'):
                                 # Domoticz.Debug(str(mapping.values()))
                                 for item in mapping.values():
