@@ -169,26 +169,24 @@ def onHandleThread(startup):
             devs = None
             with open(Parameters['HomeFolder'] + '/devices.json') as dFile:
                 devs = json.load(dFile)
-
-        # Initialize/Update devices from TUYA API
-        if devs is None:
-            Domoticz.Error('devices.json is missing in the plugin folder!')
-            exit
-        # Create devices
-        for dev in devs:
-            Domoticz.Debug( 'Device name=' + str(dev['name']) + ' id=' + str(dev['id']) + ' ip=' + str(dev['ip']) + ' version=' + str(dev['version'])) # ' key=' + str(dev['key']) +
-            last_update = time.time()
-            try:        # GV 20240824
-                FunctionProperties = properties[dev['id']]['functions']    
-                dev_type = DeviceType(dev['category'])
-                StatusProperties = properties[dev['id']]['status']
-                mapping = dev['mapping']
-            except:        # GV 20240824
-                raise Exception('Error in 178')
-                return
-            for key, value in mapping.items():
-                value['dp'] = key
-            code_list = [value['code'] for key, value in mapping.items()]
+            if devs is None:
+                Domoticz.Error('devices.json is missing in the plugin folder!')
+                exit
+            # Create devices
+            for dev in devs:
+                Domoticz.Debug( 'Device name=' + str(dev['name']) + ' id=' + str(dev['id']) + ' ip=' + str(dev['ip']) + ' version=' + str(dev['version'])) # ' key=' + str(dev['key']) +
+                try:        # GV 20240824
+                    properties[dev['id']] = tuya.getproperties(dev['id'])['result']
+#                    FunctionProperties = properties[dev['id']]['functions']    
+#                    dev_type = DeviceType(dev['category'])
+#                    StatusProperties = properties[dev['id']]['status']
+                    mapping = dev['mapping']
+                except:        # GV 20240824
+                    raise Exception('Error in 178')
+                    return
+                for key, value in mapping.items():
+                    value['dp'] = key
+                code_list = [value['code'] for key, value in mapping.items()]
             # Domoticz.Debug(str(code_list))
             if str(dev['ip']) != '':
                 # tuya = tinytuya.Device(ev_id=str(dev['id']), address=str(dev['ip']), local_key=str(dev['key']), version=float(dev['version']))
