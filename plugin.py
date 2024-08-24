@@ -242,7 +242,7 @@ def onHandleThread(startup):
 
                                 # Create Selection Switch
                                 elif item['code'] in ['mode', 'work_mode', 'speed', 'fan_direction', 'Alarmtype', 'AlarmPeriod', 'alarm_state', 'status', 'alarm_volume', 'alarm_lock', 'cistern', 'fault', 'suction', 'cistern', 'fan_speed_enum', 'dehumidify_set_value', 'device_mode', 'pir_sensitivity', 'manual_feed', 'manual_feed', 'feed_state', 'feed_report', 'alarm_lock', 'switch_mode', 'laser_switch', 'defrost_state', 'compressor_state'] + [f'switch{i}_value' for i in range(1, 9)] + [f'switch_type_{i}' for i in range(1, 9)]:
-                                    Domoticz.Log('Create Selection device')
+                                    Domoticz.Log('Create Selection device' + dev['name'])
                                     if item['code'] == 'mode':
                                         the_values = item['values']
                                         mode = ['off']
