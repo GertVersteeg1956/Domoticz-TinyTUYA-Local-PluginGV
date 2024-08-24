@@ -18,7 +18,7 @@ To install:
 * Go in your Domoticz directory using a command line and open the plugins directory.
 * ```cd ~/domoticz/plugins``` for most user or go to the Docker volume mount plugins directory.
 * The plugin required Python library tinytuya ```sudo pip3 install requests==2.23.0 charset-normalizer==3.0.1 tinytuya -U```
-* Run: ```git clone https://github.com/Xenomes/Domoticz-TinyTUYA-Local-Plugin.git```
+* Run: ```git clone https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git```
 * Run ```python3 -m tinytuya wizard``` fill in the credentials from the IoT Cloud account, say 'Yes' to the following questions. A deviceID can be found on your IOT account of Tuya got to Cloud => your project => Devices => Pick one of you device ID. (Keep a copy of 'devices.json' for the furtur)
 * Restart Domoticz.
 
