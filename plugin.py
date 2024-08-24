@@ -162,6 +162,9 @@ def onHandleThread(startup):
             global tuya
             global devs
             global last_update
+            global FunctionProperties    # GV 20240824
+            global StatusProperties    # GV 20240824
+
             last_update = time.time()
             devs = None
             with open(Parameters['HomeFolder'] + '/devices.json') as dFile:
@@ -174,8 +177,15 @@ def onHandleThread(startup):
         # Create devices
         for dev in devs:
             Domoticz.Debug( 'Device name=' + str(dev['name']) + ' id=' + str(dev['id']) + ' ip=' + str(dev['ip']) + ' version=' + str(dev['version'])) # ' key=' + str(dev['key']) +
-            mapping = dev['mapping']
-            dev_type = DeviceType(dev['category'])
+            try:        # GV 20240824
+                last_update = time.time()
+                FunctionProperties = properties[dev['id']]['functions']    
+                dev_type = DeviceType(dev['category'])
+                StatusProperties = properties[dev['id']]['status']
+                mapping = dev['mapping']
+            except:        # GV 20240824
+                raise Exception('Error in 178')
+                return
             for key, value in mapping.items():
                 value['dp'] = key
             code_list = [value['code'] for key, value in mapping.items()]
