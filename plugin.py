@@ -199,6 +199,10 @@ def onHandleThread(startup):
                                 if createDevice(dev['id'], unit):
                                    Domoticz.Unit(Name=dev['name'] , DeviceID=dev['id'], Unit=unit, Type=244, Subtype=73, Switchtype=0, Used=1).Create() #On/Off
                                    Domoticz.Log('Created switch device for ' + dev['name'])
+                             elif unit == 17:	# add add_electricity device
+                                if createDevice(dev['id'], unit):
+                                   Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=243, Subtype=29, Switchtype=0, Used=1).Create()
+                                   Domoticz.Log('Created add_electricity device for ' + dev['name'])
                              elif unit == 18:	# Current device
                                 if createDevice(dev['id'], unit):
                                    Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=243, Subtype=23, Switchtype=0, Used=1).Create() #Current (Single)
@@ -392,6 +396,10 @@ def onHandleThread(startup):
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                elif item['code'] == 'cur_voltage':
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 10.
+                                  #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
+                                  UpdateDevice(dev['id'], unit, str(value), 0, 0)
+                               elif item['code'] == 'add_ele':
+                                  value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1000.
                                   #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                else:
