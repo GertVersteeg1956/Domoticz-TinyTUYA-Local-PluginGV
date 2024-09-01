@@ -366,7 +366,8 @@ def onHandleThread(startup):
                     tuya = tinytuya.Device(dev_id=str(dev['id']), address=str(dev['ip']), local_key=str(dev['key']), version=str(dev['version']), connection_timeout=1, connection_retry_limit=1)
                     tuya.detect_available_dps()
                     Domoticz.Log('Device : ' + str(dev['id']))
-                    if float(time.time()) > float(getConfigItem(dev['id'], 'last_update')):
+                    if True: # Emergancy test
+                        #if float(time.time()) > float(getConfigItem(dev['id'], 'last_update')):
                         tuyastatus = tuya.status()
 #                        Domoticz.Log (str(tuyastatus))
                         # Domoticz.Debug('tuyastatus: ' + str(tuyastatus))
