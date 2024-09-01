@@ -402,7 +402,7 @@ def onHandleThread(startup):
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1000.
                                   svalue = str(value) + ';0'
                                   Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue)
-                                  UpdateDevice(dev['id'], unit, str(value), 0, 0)
+                                  UpdateDevice(dev['id'], unit, svalue, 0, 0)
                                else:
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) 
                                   Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value) + ' Item type : ' + item['type'])
