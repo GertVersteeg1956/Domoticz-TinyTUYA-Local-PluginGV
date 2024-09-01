@@ -352,7 +352,7 @@ def onHandleThread(startup):
                                 #     Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=243, Subtype=19, Used=0).Create()
                                 #     UpdateDevice(dev['id'], unit, 'Infrared devices are not yet able to be controlled by the plugin.', 0, 0)
                                 else:
-                                    Domoticz.Debug('No mapping found for device: ' + str(dev['name']) + ' sub device: ' + str(item['code']) + ' Item type : ' + item['type'])
+                                    Domoticz.Debug('No mapping found for device: ' + str(dev['name']) + ' sub device: ' + str(item['code']) 
 
                     setConfigItem(dev['id'], {'unit': unit, 'category': dev_type, 'key': dev['key'], 'ip': dev['ip'], 'version': dev['version'], 'last_update': 0})
 
@@ -396,7 +396,7 @@ def onHandleThread(startup):
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                else:
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) 
-                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
+                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value) + ' Item type : ' + item['type']))
                           else:
                             if dev_type in ('light', 'fanlight', 'pirlight'):
                                 unit = 1
