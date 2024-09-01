@@ -7,9 +7,9 @@
 # Added processing of action smart powerplugs
 #
 """
-<plugin key="tinytuyalocalgv" name="TinyTUYA (Local Control GV)" author="GertVersteeg1956" version="0.4.2" wikilink="" externallink="https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git">
+<plugin key="tinytuyalocalgv" name="TinyTUYA (Local Control GV)" author="GertVersteeg1956" version="0.4.3" wikilink="" externallink="https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git">
     <description>
-        <h2>TinyTUYA Plugin Local Controlversion 0.4.2</h2><br/>
+        <h2>TinyTUYA Plugin Local Controlversion 0.4.3</h2><br/>
         <br/>
         <h3>Features</h3>
         <ul style="list-style-type:square">
@@ -365,7 +365,7 @@ def onHandleThread(startup):
                     # Domoticz.Debug(tuya.status())
                     tuya = tinytuya.Device(dev_id=str(dev['id']), address=str(dev['ip']), local_key=str(dev['key']), version=str(dev['version']), connection_timeout=1, connection_retry_limit=1)
                     tuya.detect_available_dps()
-                    Domoticz.Log('Device : ' + str(dev['id']) + ' Last Update : ' + str(getConfigItem(dev['id'], 'last_update')))
+                    Domoticz.Log('Device : ' + str(dev['id']) + ' Last Update : ' + str(Devices[dev['id']].Units[1].LastUpdate))
                     if True: # Emergancy test
                         #if float(time.time()) > float(getConfigItem(dev['id'], 'last_update')):
                         tuyastatus = tuya.status()
