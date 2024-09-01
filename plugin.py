@@ -396,7 +396,7 @@ def onHandleThread(startup):
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                else:
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) 
-                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value) + ' Item type : ' + item['type']))
+                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value) + ' Item type : ' + item['type'])
                           else:
                             if dev_type in ('light', 'fanlight', 'pirlight'):
                                 unit = 1
