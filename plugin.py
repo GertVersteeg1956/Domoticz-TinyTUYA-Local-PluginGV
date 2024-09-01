@@ -352,7 +352,7 @@ def onHandleThread(startup):
                                 #     Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=243, Subtype=19, Used=0).Create()
                                 #     UpdateDevice(dev['id'], unit, 'Infrared devices are not yet able to be controlled by the plugin.', 0, 0)
                                 else:
-                                    Domoticz.Debug('No mapping found for device: ' + str(dev['name']) + ' sub device: ' + str(item['code']))
+                                    Domoticz.Debug('No mapping found for device: ' + str(dev['name']) + ' sub device: ' + str(item['code']) + ' Item type : ' + item['type'])
 
                     setConfigItem(dev['id'], {'unit': unit, 'category': dev_type, 'key': dev['key'], 'ip': dev['ip'], 'version': dev['version'], 'last_update': 0})
 
@@ -380,7 +380,6 @@ def onHandleThread(startup):
                             for item in mapping.values():
                                unit = int(item['dp'])
                                currentstatus = convert_to_correct_type(tuyastatus['dps'][str(unit)])
-#                               Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(currentstatus))
                                if item['code'] in ('switch', 'switch_1', 'switch_2'):
                                   UpdateDevice(dev['id'], unit, currentstatus, 0 if currentstatus == False else 1, 0)
                                elif item['code'] == 'cur_current':
@@ -397,7 +396,7 @@ def onHandleThread(startup):
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                else:
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) 
-                                  #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
+                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
                           else:
                             if dev_type in ('light', 'fanlight', 'pirlight'):
                                 unit = 1
