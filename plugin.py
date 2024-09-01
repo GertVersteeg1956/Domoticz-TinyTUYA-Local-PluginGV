@@ -400,7 +400,7 @@ def onHandleThread(startup):
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                elif item['code'] == 'add_ele':
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1000.
-                                  #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
+                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                else:
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) 
