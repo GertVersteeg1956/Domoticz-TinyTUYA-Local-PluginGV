@@ -399,9 +399,8 @@ def onHandleThread(startup):
                                   #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                elif item['code'] == 'add_ele':
-                                  value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1000.
-                                  svalue = str(value) + ';0'
-                                  svalue = '1;2'
+                                  value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1.
+                                  svalue = '0;' + str(value)
                                   Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue)
                                   UpdateDevice(dev['id'], unit, svalue, 0, 0)
                                else:
