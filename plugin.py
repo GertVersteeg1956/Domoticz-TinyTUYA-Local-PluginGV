@@ -7,7 +7,7 @@
 # Added processing of action smart powerplugs
 #
 """
-<plugin key="tinytuyalocalgv" name="TinyTUYA (Local Control GV)" author="GertVersteeg1956" version="0.4" wikilink="" externallink="https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git">
+<plugin key="tinytuyalocalgv" name="TinyTUYA (Local Control GV)" author="GertVersteeg1956" version="0.4.1" wikilink="" externallink="https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git">
     <description>
         <h2>TinyTUYA Plugin Local Controlversion 0.4</h2><br/>
         <br/>
