@@ -399,13 +399,15 @@ def onHandleThread(startup):
                                   #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value))
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                elif item['code'] == 'add_ele':
+                                  lastupdate = (int(time.time()) - int(time.mktime(time.strptime(Devices[dev['id']].Units[unit].LastUpdate, '%Y-%m-%d %H:%M:%S'))))
+
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1.
                                   svalue = '0;' + str(value)
-                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue)
+                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue + ' Last update = ' + str(lastupdate))
                                   UpdateDevice(dev['id'], unit, svalue, 0, 0)
                                else:
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) 
-                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value) + ' Item type : ' + item['type'])
+                                  #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value) + ' Item type : ' + item['type'])
                           else:
                             if dev_type in ('light', 'fanlight', 'pirlight'):
                                 unit = 1
