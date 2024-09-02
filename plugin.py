@@ -400,11 +400,14 @@ def onHandleThread(startup):
                                   UpdateDevice(dev['id'], unit, str(value), 0, 0)
                                elif item['code'] == 'add_ele':
                                   lastupdate = (int(time.time()) - int(time.mktime(time.strptime(Devices[dev['id']].Units[unit].LastUpdate, '%Y-%m-%d %H:%M:%S'))))
+                                  lastvalue = Devices[dev['id']].Units[unit].sValue if len(Devices[dev['id']].Units[unit].sValue) > 0 else '0;0'
 
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1.
+                                  energy = str(float(lastvalue.split(';')[1]) + ((value) * (lastupdate / 3600)))
                                   svalue = '0;' + str(value)
-                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue + ' Last update = ' + str(lastupdate))
-                                  UpdateDevice(dev['id'], unit, svalue, 0, 0)
+                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue + 'Energy : ' + energy + ' Last update = ' + str(lastupdate))
+                                  UpdateDevice(dev['id'], unit, str(value) + ';' + energy , 0, 0, 1)
+#                                  UpdateDevice(dev['id'], unit, svalue, 0, 0)
                                else:
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) 
                                   #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + str(value) + ' Item type : ' + item['type'])
@@ -459,8 +462,8 @@ def onHandleThread(startup):
                                             UpdateDevice(dev['id'], 101 + unit, str(currentpower), 0, 0)
                                             UpdateDevice(dev['id'], 102 + unit, str(currentvoltage), 0, 0)
                                             lastupdate = (int(time.time()) - int(time.mktime(time.strptime(Devices[dev['id']].Units[103 + unit].LastUpdate, '%Y-%m-%d %H:%M:%S'))))
-                                            lastvalue = Devices[dev['id']].Units[103 + unit].sValue if len(Devices[dev['id']].Units[103 + unit].sValue) > 0 else '0;0'
-                                            UpdateDevice(dev['id'], 103 + unit, str(currentpower) + ';' + str(float(lastvalue.split(';')[1]) + ((currentpower) * (lastupdate / 3600))) , 0, 0, 1)
+#                                            lastvalue = Devices[dev['id']].Units[103 + unit].sValue if len(Devices[dev['id']].Units[103 + unit].sValue) > 0 else '0;0'
+#                                            UpdateDevice(dev['id'], 103 + unit, str(currentpower) + ';' + str(float(lastvalue.split(';')[1]) + ((currentpower) * (lastupdate / 3600))) , 0, 0, 1)
                                         elif dtype.Type == 244 and dtype.SubType == 62 and dtype.SwitchType == 18:
                                             mode = ['off']
                                             mode.extend(item['values']['range'])
