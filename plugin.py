@@ -405,7 +405,7 @@ def onHandleThread(startup):
                                   value = convert_to_correct_type(tuyastatus['dps'][str(unit)]) / 1.
                                   energy = str(float(lastvalue.split(';')[1]) + ((value) * (lastupdate / 3600)))
                                   svalue = '0;' + str(value)
-                                  Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue + 'Energy : ' + energy + ' Last update = ' + str(lastupdate))
+                                  #Domoticz.Log ('Unit = ' + str(unit) + ' Code = ' + str(item['code']) + ' Currentvalue = ' + svalue + 'Energy : ' + energy + ' Last update = ' + str(lastupdate))
                                   UpdateDevice(dev['id'], unit, str(value) + ';' + energy , 0, 0, 1)
 #                                  UpdateDevice(dev['id'], unit, svalue, 0, 0)
                                else:
