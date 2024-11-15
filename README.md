@@ -1,5 +1,5 @@
 # NOT YET READY FOR LIVE SYSTEMS
-# Last update: Nov 15th, 2024 by gertversteeg1956
+Last update: Nov 15th, 2024 by gertversteeg1956
 
 
 # Domoticz-TinyTUYA-Local-Plugin
