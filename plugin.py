@@ -5,7 +5,7 @@
 # Description: Started adding processing of Action LSC Powerplugs with energy metering 
 #
 """
-<plugin key="tinytuyalocalGV" name="TinyTUYA (Local Control) GV" author="GertVersteeg1956" version="0.1" wikilink="" externallink="https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git">
+<plugin key="tinytuyalocal" name="TinyTUYA (Local Control)" author="GertVersteeg1956" version="0.1" wikilink="" externallink="https://github.com/Xenomes/Domoticz-TinyTUYA-Local-Plugin.git">
     <description>
         <h2>TinyTUYA Plugin Local Controlversion Alpha 0.1</h2><br/>
         <br/>
@@ -244,6 +244,8 @@ def onHandleThread(startup):
                                     Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=248, Subtype=1, Switchtype=0, Used=1).Create() #Electric Usage
                                 elif item['code'] in ['add_ele']:
                                     Domoticz.Unit(Name=dev['name'] + ' (' + str(item['code']) + ')', DeviceID=dev['id'], Unit=unit, Type=243, Subtype=31,  Used=1).Create() #Contact
+                    else:
+                        Domoticz.Debug ('dev_type ' + dev_type + ' not implemented yet!')
 
                     # elif dev_type not in ('light', 'fanlight', 'pirlight'):
 #                    for item in mapping.values():
