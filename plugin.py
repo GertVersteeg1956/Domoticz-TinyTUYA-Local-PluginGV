@@ -5,7 +5,7 @@
 # Description: Started adding processing of Action LSC Powerplugs with energy metering 
 #
 """
-<plugin key="tinytuyalocal" name="TinyTUYA (Local Control)" author="GertVersteeg1956" version="0.1" wikilink="" externallink="https://github.com/Xenomes/Domoticz-TinyTUYA-Local-Plugin.git">
+<plugin key="tinytuyalocalGV" name="TinyTUYA (Local Control) GV" author="GertVersteeg1956" version="0.1" wikilink="" externallink="https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git">
     <description>
         <h2>TinyTUYA Plugin Local Controlversion Alpha 0.1</h2><br/>
         <br/>
