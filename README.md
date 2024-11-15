@@ -1,5 +1,5 @@
 # NOT YET READY FOR LIVE SYSTEMS
-
+# Last update: Nov 15th, 2024 by gertversteeg1956
 
 
 # Domoticz-TinyTUYA-Local-Plugin
@@ -18,7 +18,7 @@ To install:
 * Go in your Domoticz directory using a command line and open the plugins directory.
 * ```cd ~/domoticz/plugins``` for most user or go to the Docker volume mount plugins directory.
 * The plugin required Python library tinytuya ```sudo pip3 install requests==2.23.0 charset-normalizer==3.0.1 tinytuya -U```
-* Run: ```git clone https://github.com/GertVersteeg1956/Domoticz-TinyTUYA-Local-PluginGV.git```
+* Run: ```git clone https://github.com/Xenomes/Domoticz-TinyTUYA-Local-Plugin.git```
 * Run ```python3 -m tinytuya wizard``` fill in the credentials from the IoT Cloud account, say 'Yes' to the following questions. A deviceID can be found on your IOT account of Tuya got to Cloud => your project => Devices => Pick one of you device ID. (Keep a copy of 'devices.json' for the furtur)
 * Restart Domoticz.
 
@@ -54,5 +54,7 @@ I only had an RGBWW light to fully test the script. If there is a device missing
 | 0.1 | Initial upload version |
 | 0.2 | Add unit detection devices |
 | 0.3 | Add True and False statment |
+| 0.4 | Add value scaling |
+| 0.5 | Changed some coding |
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/xenomes)
